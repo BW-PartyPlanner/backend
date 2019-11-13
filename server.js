@@ -13,7 +13,6 @@ server.use(express.json());
 server.use(cors());
 
 //////    Use routers    ///////
-//this is where I set a base url specified to the second param!
 // server.use("put base url here", putRouteHere);
 
 //handle unhandled promise rejections
@@ -24,7 +23,7 @@ process.on("unhandledRejection", (err, promise) => {
 });
 
 server.get("/", (req, res) => {
-  res.send("Its aliiiiive!");
+  res.send("The Party Planner server is running!!");
 });
 
 module.exports = server;
