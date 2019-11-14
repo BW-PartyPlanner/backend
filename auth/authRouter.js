@@ -2,15 +2,18 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Import data model
-const Users = require("../users/users-model");
+//bring in secret
 const secrets = require("../config/secret");
+
+// Import data model
+const Users = require("../crudOPS/users/users-model"); //change this route, make sure to call it the same thing
 
 router.post("/register", (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 12);
   user.password = hash;
 
+  //grabs add function from users model and passes in user and sends back res data
   Users.add(user)
     .then(saved => {
       res.status(201).json(saved);
