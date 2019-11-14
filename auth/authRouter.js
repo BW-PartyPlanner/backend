@@ -1,19 +1,18 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-//bring in secret
 const secrets = require("../config/secret");
+const Users = require("../crudOPS/users/users/Model");
+//uses usersModel instead of having its own
 
-// Import data model
-const Users = require("../crudOPS/users/users-model"); //change this route, make sure to call it the same thing
-
+// @desc     Register a User in DB
+// @route    POST /users
+// @access   Public
 router.post("/register", (req, res) => {
   let user = req.body;
-  const hash = bcrypt.hashSync(user.password, 12);
+  const hash = bcrypt.hashSync(user.password, 8);
   user.password = hash;
 
-  //grabs add function from users model and passes in user and sends back res data
   Users.add(user)
     .then(saved => {
       res.status(201).json(saved);
@@ -23,6 +22,9 @@ router.post("/register", (req, res) => {
     });
 });
 
+// @desc     Login a User in
+// @route    POST /login
+// @access   Public
 router.post("/login", (req, res) => {
   let { username, password } = req.body;
 
@@ -33,6 +35,7 @@ router.post("/login", (req, res) => {
         const token = generateToken(user);
         res.status(200).json({
           message: `Welcome ${user.username}!`,
+          id: user.id,
           token
         });
       } else {
@@ -51,7 +54,7 @@ function generateToken(user) {
   };
 
   const options = {
-    expiresIn: "8h"
+    expiresIn: "24h"
   };
 
   return jwt.sign(payload, secrets.jwtSecret, options);
