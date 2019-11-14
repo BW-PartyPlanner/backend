@@ -12,6 +12,17 @@ if (process.env.NODE_ENV === "development") {
 
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}...`.cyan);
+const app = server.listen(
+  PORT,
+  console.log(
+    `Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow
+      .bold
+  )
+);
+
+//handle unhandled promise rejections
+process.on("unhandledRejection", (err, promise) => {
+  console.log(`Error: ${err.message}`.red.bold);
+  //close server and exit process
+  app.close(() => process.exit(1));
 });
