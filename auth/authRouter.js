@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const secrets = require("../config/secret");
-const Users = require("../crudOPS/users/users/Model");
-//uses usersModel instead of having its own
+const Users = require("../crudOPS/users/usersModel");
 
 // @desc     Register a User in DB
-// @route    POST /users
+// @route    POST /api/users
 // @access   Public
 router.post("/register", (req, res) => {
   let user = req.body;
@@ -23,7 +23,7 @@ router.post("/register", (req, res) => {
 });
 
 // @desc     Login a User in
-// @route    POST /login
+// @route    POST /api/login
 // @access   Public
 router.post("/login", (req, res) => {
   let { username, password } = req.body;
@@ -34,7 +34,7 @@ router.post("/login", (req, res) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
         res.status(200).json({
-          message: `Welcome ${user.username}!`,
+          message: `Welcome back ${user.first_name}!`,
           id: user.id,
           token
         });

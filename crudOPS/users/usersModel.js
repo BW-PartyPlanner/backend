@@ -8,16 +8,13 @@ module.exports = {
 };
 
 function find() {
-  return db("users as u")
-    .select(
-      "u.id",
-      "u.username",
-      "u.displayName",
-      "u.password",
-      "u.parties",
-      "p.name as partyName"
-    )
-    .innerJoin("parties as p", "p.id", "=", "u.parties_id");
+  return db("users as u").select(
+    "u.id",
+    "u.first_name",
+    "u.last_name",
+    "u.password",
+    "u.email"
+  );
 }
 
 function findBy(filter) {
@@ -25,11 +22,12 @@ function findBy(filter) {
 }
 
 function add(user) {
-  return db("users").insert(user);
-  // .then(ids => {
-  //   const [id] = ids;
-  //   return findById(id);
-  // });
+  return db("users")
+    .insert(user)
+    .then(ids => {
+      const [id] = ids;
+      return findById(id);
+    });
 }
 
 function findById(id) {
