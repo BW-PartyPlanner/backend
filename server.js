@@ -12,16 +12,17 @@ const server = express();
 
 server.use(express.json());
 server.use(helmet());
-server.use(cors());
+server.use(
+  cors({
+    origin: true,
+    credentials: true
+  })
+);
 
 //////    Use routers    ///////
 server.use("/api/auth", authRouter);
 server.use("/api/users", usersRouter);
 server.use("/api/parties", partiesRouter);
-
-// server.use("put base url here", putRouteHere);
-// server.use("put base url here", putRouteHere);
-// server.use("put base url here", putRouteHere);
 
 //testing that the server works
 server.get("/", (req, res) => {

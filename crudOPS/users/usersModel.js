@@ -12,8 +12,8 @@ function find() {
     "u.id",
     "u.first_name",
     "u.last_name",
-    "u.password",
-    "u.email"
+    "u.email",
+    "u.img"
   );
 }
 

@@ -3,7 +3,7 @@ const Users = require("./usersModel");
 const restricted = require("../../auth/restrictedMiddleware");
 
 // @desc     Get all Users
-// @route    GET /users
+// @route    GET /api/users
 // @access   Private
 router.get("/", restricted, (req, res) => {
   Users.find()
