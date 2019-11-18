@@ -1,7 +1,7 @@
 const db = require("../../data/db-config");
 
 module.exports = {
-  add,
+  insert,
   find,
   findBy,
   findById,
@@ -9,7 +9,7 @@ module.exports = {
   remove
 };
 
-async function add(user) {
+async function insert(user) {
   const [id] = await db("users")
     .insert(user)
     .returning("id");

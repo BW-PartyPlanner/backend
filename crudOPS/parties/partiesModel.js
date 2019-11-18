@@ -1,13 +1,19 @@
 const db = require("../../data/db-config");
 
 module.exports = {
-  add,
   find,
   findBy,
   findById,
+  insert,
   update,
   remove
 };
+
+function insert(party) {
+  return db("parties")
+    .insert(party)
+    .returning("id");
+}
 
 function find() {
   return db("parties");
@@ -18,36 +24,17 @@ function findBy(filter) {
 }
 
 function findById(id) {
-  return db("parties")
-    .where({ id })
-    .first();
-}
-
-async function add(party) {
-  return db("parties")
-    .insert(party, "id")
-    .then(ids => {
-      return db("parties")
-        .where({ id: ids[0] })
-        .first();
-    });
+  return db("parties").where({ id });
 }
 
 function update(id, changes) {
   return db("parties")
     .where({ id })
-    .update(changes)
-    .then(count => {
-      if (count > 0) {
-        return findById(id);
-      } else {
-        return null;
-      }
-    });
+    .update(changes);
 }
 
 function remove(id) {
   return db("parties")
-    .where("id", id)
+    .where({ id })
     .del();
 }

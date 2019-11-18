@@ -12,7 +12,9 @@ router.get("/", restricted, async (req, res) => {
     const users = await Users.find();
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ error, message: "Unable to get users" });
+    res
+      .status(500)
+      .json({ error, message: "Unable to get users, its not you.. its me" });
   }
 });
 
@@ -26,7 +28,7 @@ router.get("/:id", restricted, async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error,
-      message: "Unable to find this user id"
+      message: "Unable to find this user id, its not you.. its me"
     });
   }
 });
@@ -43,7 +45,10 @@ router.put("/:id", restricted, async (req, res) => {
       res.status(404).json({ message: "User could not be found!" });
     }
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({
+      error,
+      message: "Could not edit this user, its not you.. its me"
+    });
   }
 });
 
@@ -59,7 +64,9 @@ router.delete("/:id", restricted, async (req, res) => {
       res.status(404).json({ message: "User unable to be deleted!" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error while deleting User!" });
+    res
+      .status(500)
+      .json({ message: "Error while deleting User, its not you.. its me" });
   }
 });
 

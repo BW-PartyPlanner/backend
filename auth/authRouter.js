@@ -12,13 +12,15 @@ router.post("/register", async (req, res) => {
   let { username, password } = req.body;
 
   if (!username || !password) {
-    res.status(401).json({ message: "Please both a Username and Password" });
+    res
+      .status(400)
+      .json({ message: "Please include both a Username and Password" });
   } else {
     const hash = bcrypt.hashSync(password, 10);
     password = hash;
 
     try {
-      const newUser = await Users.add({ userName, password });
+      const newUser = await Users.insert({ userName, password });
       if (newUser) {
         res.status(201).json(newUser);
       }
