@@ -7,23 +7,15 @@ module.exports = {
   findById
 };
 
-function add(user) {
-  return db("users")
+async function add(user) {
+  const [id] = await db("users")
     .insert(user)
-    .then(ids => {
-      const [id] = ids;
-      return findById(id);
-    });
+    .returning("id");
+  return findById(id);
 }
 
 function find() {
-  return db("users as u").select(
-    "u.id",
-    "u.first_name",
-    "u.last_name",
-    "u.email",
-    "u.img"
-  );
+  return db("users").select("id", "username", "password");
 }
 
 function findBy(filter) {
@@ -32,7 +24,6 @@ function findBy(filter) {
 
 function findById(id) {
   return db("users")
-    .select("id", "username")
     .where({ id })
     .first();
 }
