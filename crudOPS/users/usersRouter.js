@@ -2,6 +2,8 @@ const router = require("express").Router();
 const Users = require("./usersModel");
 const restricted = require("../../auth/restrictedMiddleware");
 
+//add in full crud for user just in case
+
 // @desc     Get all Users
 // @route    GET /api/users
 // @access   Private

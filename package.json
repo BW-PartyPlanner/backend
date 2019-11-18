@@ -2,13 +2,13 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backend for BW Party Planner App",
-  "main": "server.js",
+  "main": "index.js",
   "repository": "https://github.com/BW-PartyPlanner/backend.git",
   "author": "Wes Jonke <wesjonke@gmail.com>",
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "NODE_ENV = production node server",
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "jest": {
