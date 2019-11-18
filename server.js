@@ -10,14 +10,13 @@ const partiesRouter = require("./crudOPS/parties/partiesRouter");
 
 const server = express();
 
-server.use(express.json());
-server.use(helmet());
-server.use(
-  cors({
-    origin: true,
-    credentials: true
-  })
-);
+server.use(express.json(), helmet(), cors());
+
+//  pass this in cors if having bad cors issues
+// {
+//   origin: true,
+//   credentials: true
+// }
 
 //////    Use routers    ///////
 server.use("/api/auth", authRouter);
