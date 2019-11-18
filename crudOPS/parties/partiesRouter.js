@@ -1,5 +1,4 @@
 const router = require("express").Router();
-
 const Parties = require("./partiesModel");
 const restricted = require("../../auth/restrictedMiddleware");
 
@@ -88,7 +87,9 @@ router.delete("/:id", restricted, async (req, res) => {
       res.status(404).json({ message: "Party unable to be deleted!" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error while deleting party!" });
+    res
+      .status(500)
+      .json({ message: "Error while deleting party!, its not you.. its me" });
   }
 });
 

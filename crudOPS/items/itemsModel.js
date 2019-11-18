@@ -1,29 +1,40 @@
 const db = require("../../data/db-config");
 
 module.exports = {
-  add,
   find,
   findBy,
-  findById
+  findById,
+  insert,
+  update,
+  remove
 };
 
-// async function add(user) {
-//   const [id] = await db("users")
-//     .insert(user)
-//     .returning("id");
-//   return findById(id);
-// }
+function insert(item) {
+  return db("items")
+    .insert(item)
+    .returning("id");
+}
 
-// function find() {
-//   return db("users").select("id", "username", "password");
-// }
+function find() {
+  return db("items");
+}
 
-// function findBy(filter) {
-//   return db("users").where(filter);
-// }
+function findBy(filter) {
+  return db("items").where(filter);
+}
 
-// function findById(id) {
-//   return db("users")
-//     .where({ id })
-//     .first();
-// }
+function findById(id) {
+  return db("items").where({ id });
+}
+
+function update(id, changes) {
+  return db("items")
+    .where({ id })
+    .update(changes);
+}
+
+function remove(id) {
+  return db("items")
+    .where({ id })
+    .del();
+}

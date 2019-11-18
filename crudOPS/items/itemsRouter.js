@@ -2,66 +2,96 @@ const router = require("express").Router();
 const Items = require("./itemsModel");
 const restricted = require("../../auth/restrictedMiddleware");
 
-// //add in full crud for user just in case
+// @desc     Get all Items
+// @route    GET /api/items
+// @access   Private
+router.get("/", restricted, async (req, res) => {
+  try {
+    const items = await Items.find();
+    res.status(200).json(items);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error, message: "Unable to get items, its not you.. its me" });
+  }
+});
 
-// // @desc     Get all Users
-// // @route    GET /api/users
-// // @access   Private
-// router.get("/", restricted, async (req, res) => {
-//   try {
-//     const users = await Users.find();
-//     res.status(200).json(users);
-//   } catch (error) {
-//     res.status(500).json({ error, message: "Unable to get users" });
-//   }
-// });
+// @desc     Get a single item by ID
+// @route    GET /api/items/:id
+// @access   Private
+router.get("/:id", restricted, async (req, res) => {
+  try {
+    const item = await Items.findById(req.params.id);
+    if (item) {
+      res.status(200).json(item);
+    } else {
+      res.status(404).json({ message: "That item cannot be found" });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error,
+      message: "Unable to find this item, its not you.. its me"
+    });
+  }
+});
 
-// // @desc     Get a user by ID
-// // @route    GET /api/users/:id
-// // @access   Private
-// router.get("/:id", restricted, async (req, res) => {
-//   try {
-//     const user = await Users.findById(req.params.id);
-//     res.status(200).json(user);
-//   } catch (error) {
-//     res.status(500).json({
-//       error,
-//       message: "Unable to find this user id"
-//     });
-//   }
-// });
+// @desc     Post an item
+// @route    POST /api/items
+// @access   Private
+router.post("/", restricted, async (req, res) => {
+  try {
+    const item = await Items.insert(req.body);
+    if (item) {
+      res
+        .status(201)
+        .json({ item, message: "You have successfully added an item!" });
+    } else {
+      res.status(400).json({ message: "please include all required content" });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error,
+      message: "Unable to add this item, its not you.. its me"
+    });
+  }
+});
 
-// // @desc     Edit a  User
-// // @route    PUT /api/users:id
-// // @access   Private
-// router.put("/:id", restricted, async (req, res) => {
-//   try {
-//     const user = await Users.update(req.params.id, req.body);
-//     if (user) {
-//       res.status(200).json({ message: "Info updated!" });
-//     } else {
-//       res.status(404).json({ message: "User could not be found!" });
-//     }
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
+// @desc     Edit an Item
+// @route    PUT /api/items:id
+// @access   Private
+router.put("/:id", restricted, async (req, res) => {
+  try {
+    const item = await Items.update(req.params.id, req.body);
+    if (item) {
+      res.status(200).json({ message: "Info updated!" });
+    } else {
+      res.status(404).json({ message: "Item could not be found!" });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error,
+      message: "Unable to edit this Item, its not you.. its me"
+    });
+  }
+});
 
-// // @desc     Delete a User
-// // @route    DELETE /api/users:id
-// // @access   Private
-// router.delete("/:id", restricted, async (req, res) => {
-//   try {
-//     const count = await Users.remove(req.params.id);
-//     if (count > 0) {
-//       res.status(200).json({ message: "Deleted!" });
-//     } else {
-//       res.status(404).json({ message: "User unable to be deleted!" });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ message: "Error while deleting User!" });
-//   }
-// });
+// @desc     Delete an Item
+// @route    DELETE /api/items:id
+// @access   Private
+router.delete("/:id", restricted, async (req, res) => {
+  try {
+    const count = await Items.remove(req.params.id);
+    if (count > 0) {
+      res.status(200).json({ message: "Deleted!" });
+    } else {
+      res.status(404).json({ message: "Item unable to be deleted!" });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error,
+      message: "Unable to delete this Item, its not you.. its me"
+    });
+  }
+});
 
-// Export router
 module.exports = router;
