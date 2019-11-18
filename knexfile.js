@@ -3,7 +3,7 @@ module.exports = {
     client: "pg",
     useNullAsDefault: true,
     connection: {
-      filename: "./data/database.db3"
+      filename: "process.env.DATABASE_NAME"
       // host: process.env.DATABASE_HOST,
       // database: process.env.DATABASE_NAME,
       // user: process.env.DATABASE_USER,
