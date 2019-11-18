@@ -7,6 +7,15 @@ module.exports = {
   findById
 };
 
+function add(user) {
+  return db("users")
+    .insert(user)
+    .then(ids => {
+      const [id] = ids;
+      return findById(id);
+    });
+}
+
 function find() {
   return db("users as u").select(
     "u.id",
@@ -19,15 +28,6 @@ function find() {
 
 function findBy(filter) {
   return db("users").where(filter);
-}
-
-function add(user) {
-  return db("users")
-    .insert(user)
-    .then(ids => {
-      const [id] = ids;
-      return findById(id);
-    });
 }
 
 function findById(id) {
