@@ -9,32 +9,32 @@ module.exports = {
   remove
 };
 
-function insert(party) {
-  return db("parties")
-    .insert(party)
+function insert(image) {
+  return db("images")
+    .insert(image)
     .returning("id");
 }
 
 function find() {
-  return db("parties");
+  return db("images");
 }
 
 function findBy(filter) {
-  return db("parties").where(filter);
+  return db("images").where(filter);
 }
 
 function findById(id) {
-  return db("parties").where({ id });
+  return db("images").where({ id });
 }
 
 function update(id, changes) {
-  return db("parties")
+  return db("images")
     .where({ id })
     .update(changes);
 }
 
 function remove(id) {
-  return db("parties")
+  return db("images")
     .where({ id })
     .del();
 }
