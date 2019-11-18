@@ -12,9 +12,7 @@ router.post("/register", async (req, res) => {
   let { username, password } = req.body;
 
   if (!username || !password) {
-    res
-      .status(401)
-      .json({ message: "Please enter a valid Username and Password" });
+    res.status(401).json({ message: "Please both a Username and Password" });
   } else {
     const hash = bcrypt.hashSync(password, 10);
     password = hash;
@@ -47,12 +45,10 @@ router.post("/login", async (req, res) => {
         token
       });
     } else {
-      res
-        .status(401)
-        .json({
-          message:
-            "Sorry, the username and/or password you provided were incorrect"
-        });
+      res.status(401).json({
+        message:
+          "Sorry, the username and/or password you provided were incorrect"
+      });
     }
   } catch (error) {
     res.status(500).json({ message: "There was an issue logging you in" });
