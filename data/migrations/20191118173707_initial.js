@@ -19,7 +19,7 @@ exports.up = function(knex) {
       .createTable("parties", tbl => {
         tbl.increments();
         tbl.string("name", 255).notNullable();
-        tbl.date("date");
+        tbl.string("date");
         tbl
           .integer("budget")
           .default(0)
@@ -42,7 +42,7 @@ exports.up = function(knex) {
           .inTable("users")
           .onDelete("RESTRICT")
           .onUpdate("CASCADE")
-          .default(0)
+          .default(1)
           .notNullable();
         tbl
           .integer("party_id")
@@ -86,6 +86,10 @@ exports.up = function(knex) {
           .inTable("parties")
           .onDelete("RESTRICT")
           .onUpdate("CASCADE")
+          .notNullable();
+        tbl
+          .boolean("creator")
+          .default("false")
           .notNullable();
       })
   );
