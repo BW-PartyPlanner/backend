@@ -33,15 +33,14 @@ function find() {
 
 function findBy(username) {
   return db("users")
-    .select("id", "username", "first_name", "last_name", "avatar")
+    .select("id", "username", "password")
     .where("username", username);
 }
 
 function findById(id) {
   return db("users")
-    .select("id", "username", "first_name", "last_name", "avatar")
-
     .where("id", id)
+    .select("id", "username", "first_name", "last_name", "avatar")
     .first();
 }
 
