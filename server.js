@@ -15,6 +15,7 @@ const server = express();
 server.use(express.json(), helmet(), cors());
 
 //  pass this in cors if having bad cors issues
+
 // {
 //   origin: true,
 //   credentials: true
