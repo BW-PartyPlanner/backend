@@ -1,7 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
-const colors = require("colors");
 
 //////    import Router files    //////
 const authRouter = require("./auth/authRouter");
@@ -12,7 +11,9 @@ const imagesRouter = require("./crudOPS/images/imagesRouter");
 
 const server = express();
 
-server.use(express.json(), helmet(), cors());
+server.use(helmet());
+server.use(cors());
+server.use(express.json());
 
 //  pass this in cors if having bad cors issues
 

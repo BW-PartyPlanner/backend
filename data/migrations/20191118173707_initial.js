@@ -42,7 +42,7 @@ exports.up = function(knex) {
           .inTable("users")
           .onDelete("RESTRICT")
           .onUpdate("CASCADE")
-          .default(1)
+          .default(0)
           .notNullable();
         tbl
           .integer("party_id")

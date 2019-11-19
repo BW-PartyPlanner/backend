@@ -9,24 +9,31 @@ module.exports = {
   remove
 };
 
-async function insert(user) {
-  const [id] = await db("users")
-    .insert(user)
-    .returning("id");
-  return findById(id);
+// function insert(user) {
+//   return db("users").insert(user);
+// }
+function insert(user) {
+  return db("users")
+    .insert(user, "id")
+    .then(ids => {
+      const [id] = ids;
+      return findById(id);
+    });
 }
 
 function find() {
   return db("users").select("id", "username", "password");
 }
 
-function findBy(filter) {
-  return db("users").where(filter);
+function findBy(username) {
+  return db("users")
+    .select("id", "username", "password")
+    .where("username", username);
 }
 
 function findById(id) {
   return db("users")
-    .where({ id })
+    .where("id", id)
     .first();
 }
 

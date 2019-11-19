@@ -1,60 +1,47 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const secrets = require("../config/secret");
 
 const Users = require("../crudOPS/users/usersModel");
 
-// @desc     Register a User in DB
-// @route    POST /api/users
-// @access   Public
-router.post("/register", async (req, res) => {
-  let { username, password } = req.body;
+router.post("/register", (req, res) => {
+  let user = req.body;
+  const hash = bcrypt.hashSync(user.password, 12);
+  user.password = hash;
 
-  if (!username || !password) {
-    res
-      .status(400)
-      .json({ message: "Please include both a Username and Password" });
-  } else {
-    const hash = bcrypt.hashSync(password, 10);
-    password = hash;
-
-    try {
-      const newUser = await Users.insert({ userName, password });
-      if (newUser) {
-        res.status(201).json(newUser);
-      }
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  }
+  Users.insert(user)
+    .then(newUser => {
+      res.status(201).json(newUser);
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ error, message: "There was an error creating new user" });
+    });
 });
 
-// @desc     Login a User in
-// @route    POST /api/login
-// @access   Public
-router.post("/login", async (req, res) => {
+router.post("/login", (req, res) => {
   let { username, password } = req.body;
 
-  try {
-    const user = await Users.findBy({ username }).first();
-
-    if (user && bcrypt.compareSync(password, user.password)) {
-      const token = generateToken(user);
-      res.status(200).json({
-        message: `Welcome back ${user.first_name}!`,
-        id: `User ID ${user.id}`,
-        token
-      });
-    } else {
-      res.status(401).json({
-        message:
-          "Sorry, the username and/or password you provided were incorrect"
-      });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "There was an issue logging you in" });
-  }
+  Users.findBy(username)
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(password, user.password)) {
+        const token = generateToken(user);
+        res.status(200).json({
+          message: `Welcome ${user.username}!`,
+          token
+        });
+      } else {
+        res.status(401).json({ message: "Invalid credentials" });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res
+        .status(500)
+        .json({ error, message: "There was an error logging you in" });
+    });
 });
 
 function generateToken(user) {
@@ -67,7 +54,7 @@ function generateToken(user) {
     expiresIn: "7d"
   };
 
-  return jwt.sign(payload, secrets.jwtSecret, options);
+  return jwt.sign(payload, process.env.JWT_SECRET, options);
 }
 
 module.exports = router;
