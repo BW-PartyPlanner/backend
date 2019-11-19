@@ -16,7 +16,7 @@ router.post("/register", (req, res) => {
     .catch(error => {
       res
         .status(500)
-        .json({ error, message: "There was an error creating new user" });
+        .json({ error, message: "Username Must be Unique, please choose another" });
     });
 });
 
