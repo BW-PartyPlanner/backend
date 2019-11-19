@@ -22,24 +22,32 @@ function insert(user) {
 }
 
 function find() {
-  return db("users").select("id", "username", "password");
+  return db("users").select(
+    "id",
+    "username",
+    "first_name",
+    "last_name",
+    "avatar"
+  );
 }
 
 function findBy(username) {
   return db("users")
-    .select("id", "username", "password")
+    .select("id", "username", "first_name", "last_name", "avatar")
     .where("username", username);
 }
 
 function findById(id) {
   return db("users")
+    .select("id", "username", "first_name", "last_name", "avatar")
+
     .where("id", id)
     .first();
 }
 
 function update(id, changes) {
   return db("users")
-    .where({ id })
+    .where("id", id)
     .update(changes)
     .then(count => {
       if (count > 0) {
