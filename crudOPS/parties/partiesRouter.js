@@ -17,13 +17,16 @@ router.get("/", restricted, async (req, res) => {
 });
 
 // @desc     Get single Party
-// @route    GET /api/parties:id
+// @route    GET /api/parties/:id
 // @access   Private
 router.get("/:id", restricted, async (req, res) => {
   try {
     const party = await Parties.findById(req.params.id);
+    const images = await Parties.getPartyImages(req.params.id);
+    const items = await Parties.getPartyItems(req.params.id);
+
     if (party) {
-      res.status(200).json(party);
+      res.status(200).json({ party, images, items });
     } else {
       res.status(404).json({ message: "That party cannot be found" });
     }

@@ -6,7 +6,8 @@ module.exports = {
   findBy,
   findById,
   update,
-  remove
+  remove,
+  getUsersParties
 };
 
 function insert(user) {
@@ -58,4 +59,18 @@ function remove(id) {
   return db("users")
     .where("id", id)
     .del();
+}
+
+function getUsersParties(id) {
+  return db("user_party")
+    .select(
+      "user_id",
+      "party_id",
+      "creator",
+      "parties.name",
+      "parties.date",
+      "parties.budget"
+    )
+    .join("parties", "party_id", "=", "parties.id")
+    .where("user_id", "=", id);
 }
