@@ -9,9 +9,6 @@ module.exports = {
   remove
 };
 
-// function insert(user) {
-//   return db("users").insert(user);
-// }
 function insert(user) {
   return db("users")
     .insert(user, "id")
