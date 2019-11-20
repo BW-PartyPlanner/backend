@@ -82,7 +82,7 @@ router.delete("/:id", restricted, async (req, res) => {
   try {
     const count = await Parties.remove(req.params.id);
     if (count > 0) {
-      res.status(200).json({ message: "Deleted!" });
+      res.status(200).json({ party, message: "Deleted!" });
     } else {
       res.status(404).json({ message: "Party unable to be deleted!" });
     }

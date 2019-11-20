@@ -63,7 +63,7 @@ router.put("/:id", restricted, async (req, res) => {
   try {
     const item = await Items.update(req.params.id, req.body);
     if (item) {
-      res.status(200).json({ message: "Info updated!" });
+      res.status(200).json({ item, message: "Info updated!" });
     } else {
       res.status(404).json({ message: "Item could not be found!" });
     }

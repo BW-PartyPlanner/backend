@@ -11,30 +11,45 @@ module.exports = {
 
 function insert(party) {
   return db("parties")
-    .insert(party)
-    .returning("id");
+    .insert(party, "party")
+    .then(ids => {
+      const [id] = ids;
+      return findById(id);
+    });
 }
 
 function find() {
   return db("parties");
 }
 
-function findBy(filter) {
-  return db("parties").where(filter);
+function findBy(name) {
+  return db("parties")
+    .select("id", "name", "date", "budget")
+    .where(name);
 }
 
 function findById(id) {
-  return db("parties").where({ id });
+  return db("parties")
+    .select("id", "name", "date", "budget")
+    .where("id", id)
+    .first();
 }
 
 function update(id, changes) {
   return db("parties")
-    .where({ id })
-    .update(changes);
+    .where("id", id)
+    .update(changes)
+    .then(count => {
+      if (count > 0) {
+        return findById(id);
+      } else {
+        return null;
+      }
+    });
 }
 
 function remove(id) {
   return db("parties")
-    .where({ id })
+    .where("id", id)
     .del();
 }

@@ -12,7 +12,10 @@ module.exports = {
 function insert(item) {
   return db("items")
     .insert(item)
-    .returning("id");
+    .then(ids => {
+      const [id] = ids;
+      return findById(id);
+    });
 }
 
 function find() {

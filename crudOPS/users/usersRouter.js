@@ -40,7 +40,7 @@ router.put("/:id", restricted, async (req, res) => {
   try {
     const user = await Users.update(req.params.id, req.body);
     if (user) {
-      res.status(200).json({ message: "Info updated!" });
+      res.status(200).json({user,  message: "Info updated!" });
     } else {
       res.status(404).json({ message: "User could not be found!" });
     }
@@ -59,7 +59,7 @@ router.delete("/:id", restricted, async (req, res) => {
   try {
     const count = await Users.remove(req.params.id);
     if (count > 0) {
-      res.status(200).json({ message: "Deleted!" });
+      res.status(200).json({ message: "User Deleted!" });
     } else {
       res.status(404).json({ message: "User unable to be deleted!" });
     }
