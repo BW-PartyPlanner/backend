@@ -9,7 +9,8 @@ module.exports = {
   remove,
   getPartiesUsers,
   getPartyImages,
-  getPartyItems
+  getPartyItems,
+  insertUserParty
 };
 
 function insert(party) {
@@ -18,6 +19,18 @@ function insert(party) {
     .then(ids => {
       const [id] = ids;
       return findById(id);
+    });
+}
+
+function insertUserParty(user_id, party_id) {
+  return db("user_party")
+    .insert({ user_id, party_id, creator: "true" })
+
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
     });
 }
 

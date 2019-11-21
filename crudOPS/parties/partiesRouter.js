@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Parties = require("./partiesModel");
 const restricted = require("../../auth/restrictedMiddleware");
+const validation = require("./middleware");
 
 // @desc     Get all Parties
 // @route    GET /api/parties
@@ -59,11 +60,14 @@ router.get("/users/:id", restricted, async (req, res) => {
 // @desc     Post a Party
 // @route    POST /api/parties
 // @access   Private
-router.post("/", restricted, async (req, res) => {
+router.post("/", restricted, validation, async (req, res) => {
   try {
-    const party = await Parties.insert(req.body);
+    const { name, date, budget, user_id } = req.body;
+
+    const party = await Parties.insert({ name, date, budget });
 
     if (party) {
+      Parties.insertUserParty(user_id, party.id);
       res
         .status(201)
         .json({ party, message: "You have successfully added a Party!" });
