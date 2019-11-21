@@ -7,7 +7,7 @@ module.exports = {
   insert,
   update,
   remove,
-
+  getPartiesUsers,
   getPartyImages,
   getPartyItems
 };
@@ -69,4 +69,18 @@ function getPartyItems(id) {
     .where("party_id", "=", id);
 }
 
-//getPartyUsers "guests" shows if they are the creator or not as well as the users info, join users and user_party table
+function getPartiesUsers(id) {
+  return db("user_party")
+    .select(
+      "user_id",
+      "party_id",
+      "creator",
+
+      "users.first_name",
+      "users.last_name",
+      "users.username",
+      "users.avatar"
+    )
+    .join("users", "user_id", "=", "users.id")
+    .where("party_id", "=", id);
+}

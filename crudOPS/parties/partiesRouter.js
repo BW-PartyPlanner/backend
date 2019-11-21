@@ -6,6 +6,7 @@ const restricted = require("../../auth/restrictedMiddleware");
 // @route    GET /api/parties
 // @access   Private
 router.get("/", restricted, async (req, res) => {
+  //need to add table join logic to get the assoc. images and items for each party, maybe a map of each returned party?
   try {
     const parties = await Parties.find();
 
@@ -39,12 +40,29 @@ router.get("/:id", restricted, async (req, res) => {
   }
 });
 
+// @desc     Get a users parties
+// @route    GET /api/parties/users/:id
+// @access   Private
+router.get("/users/:id", restricted, async (req, res) => {
+  try {
+    const users = await Parties.getPartiesUsers(req.params.id);
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({
+      error,
+      message: "Unable to find this user id, its not you.. its me"
+    });
+  }
+});
+
 // @desc     Post a Party
 // @route    POST /api/parties
 // @access   Private
 router.post("/", restricted, async (req, res) => {
   try {
     const party = await Parties.insert(req.body);
+
     if (party) {
       res
         .status(201)
