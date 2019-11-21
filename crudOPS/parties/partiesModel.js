@@ -6,7 +6,10 @@ module.exports = {
   findById,
   insert,
   update,
-  remove
+  remove,
+
+  getPartyImages,
+  getPartyItems
 };
 
 function insert(party) {
@@ -53,3 +56,17 @@ function remove(id) {
     .where("id", id)
     .del();
 }
+
+function getPartyImages(id) {
+  return db("images")
+    .select("img_url", "party_id")
+    .where("party_id", "=", id);
+}
+
+function getPartyItems(id) {
+  return db("items")
+    .select("name", "description", "cost", "party_id", "user_id")
+    .where("party_id", "=", id);
+}
+
+//getPartyUsers "guests" shows if they are the creator or not as well as the users info, join users and user_party table
