@@ -8,6 +8,8 @@ module.exports = {
   update,
   remove,
   getUsersParties
+  // getPartyImages,
+  // getPartyItems
 };
 
 function insert(user) {
@@ -74,3 +76,17 @@ function getUsersParties(id) {
     .join("parties", "party_id", "=", "parties.id")
     .where("user_id", "=", id);
 }
+
+// function getPartyImages(id) {
+//   return db("images")
+//     .select("img_url", "party_id")
+//     .where("party_id", "=", id);
+// }
+
+// function getPartyItems(id) {
+//   return db("items")
+//     .select("name", "description", "cost", "party_id", "user_id")
+//     .where("party_id", "=", id);
+//
+
+//this doesnt work, its using the user id passed in, needs to only use the user party's id only

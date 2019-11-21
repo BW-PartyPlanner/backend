@@ -68,3 +68,5 @@ function getPartyItems(id) {
     .select("name", "description", "cost", "party_id", "user_id")
     .where("party_id", "=", id);
 }
+
+//getPartyUsers "guests" shows if they are the creator or not as well as the users info, join users and user_party table

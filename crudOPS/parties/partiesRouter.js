@@ -8,6 +8,7 @@ const restricted = require("../../auth/restrictedMiddleware");
 router.get("/", restricted, async (req, res) => {
   try {
     const parties = await Parties.find();
+
     res.status(200).json(parties);
   } catch (error) {
     res

@@ -36,10 +36,11 @@ router.get("/:id", restricted, async (req, res) => {
 // @access   Private
 router.get("/parties/:id", restricted, async (req, res) => {
   try {
-    const user = await Users.findById(req.params.id);
     const parties = await Users.getUsersParties(req.params.id);
-
-    res.status(200).json(parties);
+    // const images = await Users.getPartyImages(req.params.id);
+    // const items = await Users.getPartyItems(req.params.id);
+    //this doesnt work, its using the user id passed in, needs to only use the user party's id only
+    res.status(200).json(parties); // {images, items }  pass these in when i fix it
   } catch (error) {
     res.status(500).json({
       error,
