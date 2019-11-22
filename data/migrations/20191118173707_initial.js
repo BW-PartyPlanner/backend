@@ -52,6 +52,10 @@ exports.up = function(knex) {
           .onDelete("RESTRICT")
           .onUpdate("CASCADE")
           .notNullable();
+        tbl
+          .boolean("isAccountedFor")
+          .default("false")
+          .notNullable();
       })
 
       //images table
