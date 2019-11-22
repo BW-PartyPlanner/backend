@@ -1,13 +1,12 @@
 const router = require("express").Router();
 const Parties = require("./partiesModel");
 const restricted = require("../../auth/restrictedMiddleware");
-const validation = require("../../middleware/validation");
+const verifyPartyInfo = require("../../middleware/verifyPartyInfo");
 
 // @desc     Get all Parties
 // @route    GET /api/parties
 // @access   Private
 router.get("/", restricted, async (req, res) => {
-
   try {
     const parties = await Parties.find();
 
@@ -41,14 +40,17 @@ router.get("/:id", restricted, async (req, res) => {
   }
 });
 
-// @desc     Get a users parties
+// @desc     Get a parties users
 // @route    GET /api/parties/users/:id
 // @access   Private
 router.get("/users/:id", restricted, async (req, res) => {
   try {
     const users = await Parties.getPartiesUsers(req.params.id);
-
-    res.status(200).json(users);
+    if (users) {
+      res.status(200).json(users);
+    } else {
+      res.status(404).json({ message: "That parties users cannot be found" });
+    }
   } catch (error) {
     res.status(500).json({
       error,
@@ -60,7 +62,7 @@ router.get("/users/:id", restricted, async (req, res) => {
 // @desc     Post a Party
 // @route    POST /api/parties
 // @access   Private
-router.post("/", restricted, validation, async (req, res) => {
+router.post("/", restricted, verifyPartyInfo, async (req, res) => {
   try {
     const { name, date, budget, user_id } = req.body;
 
