@@ -1,13 +1,13 @@
 const router = require("express").Router();
 const Parties = require("./partiesModel");
 const restricted = require("../../auth/restrictedMiddleware");
-const validation = require("./middleware");
+const validation = require("../../middleware/validation");
 
 // @desc     Get all Parties
 // @route    GET /api/parties
 // @access   Private
 router.get("/", restricted, async (req, res) => {
-  //need to add table join logic to get the assoc. images and items for each party, maybe a map of each returned party?
+
   try {
     const parties = await Parties.find();
 
