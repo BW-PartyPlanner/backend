@@ -31,7 +31,7 @@ server.use("/api/images", imagesRouter);
 
 //testing that the server works
 server.get("/", (req, res) => {
-  res.send("The Party Planner server is running!!");
+  res.status(200).json({ status: "The Party Planner server is running!!" });
 });
 
 module.exports = server;

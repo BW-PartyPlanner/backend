@@ -3,8 +3,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const Users = require("../crudOPS/users/usersModel");
+const validateRegisterInfo = require("../middleware/verifyRegisterInfo");
+const validateLoginInfo = require("../middleware/verifyLoginInfo");
 
-router.post("/register", (req, res) => {
+router.post("/register", validateRegisterInfo, (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 12);
   user.password = hash;
@@ -14,13 +16,14 @@ router.post("/register", (req, res) => {
       res.status(201).json(newUser);
     })
     .catch(error => {
-      res
-        .status(500)
-        .json({ error, message: "Username Must be Unique, please choose another" });
+      res.status(500).json({
+        error,
+        message: "Username Must be Unique, please choose another"
+      });
     });
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", validateLoginInfo, (req, res) => {
   let { username, password } = req.body;
 
   Users.findBy(username)
