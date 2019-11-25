@@ -54,7 +54,7 @@ exports.up = function(knex) {
           .notNullable();
         tbl
           .boolean("isAccountedFor")
-          .default("false")
+          .default(false)
           .notNullable();
       })
 
@@ -93,7 +93,7 @@ exports.up = function(knex) {
           .notNullable();
         tbl
           .boolean("creator")
-          .default("false")
+          .default(false)
           .notNullable();
       })
   );

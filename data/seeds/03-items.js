@@ -6,7 +6,7 @@ exports.seed = function(knex) {
       cost: 0,
       user_id: 1,
       party_id: 1,
-      isAccountedFor: "false"
+      isAccountedFor: false
     },
     {
       name: "hire band",
@@ -14,7 +14,7 @@ exports.seed = function(knex) {
       cost: 300,
       user_id: 1,
       party_id: 1,
-      isAccountedFor: "false"
+      isAccountedFor: false
     },
     {
       name: "bring greenbean casserole",
@@ -22,7 +22,7 @@ exports.seed = function(knex) {
       cost: 0,
       user_id: 2,
       party_id: 1,
-      isAccountedFor: "false"
+      isAccountedFor: false
     },
     {
       name: "bring chairs",
@@ -30,7 +30,7 @@ exports.seed = function(knex) {
       cost: 0,
       user_id: 2,
       party_id: 2,
-      isAccountedFor: "false"
+      isAccountedFor: false
     },
     {
       name: "hire band",
@@ -38,7 +38,7 @@ exports.seed = function(knex) {
       cost: 300,
       user_id: 3,
       party_id: 3,
-      isAccountedFor: "false"
+      isAccountedFor: false
     },
     {
       name: "bring greenbean casserole",
@@ -46,7 +46,7 @@ exports.seed = function(knex) {
       cost: 0,
       user_id: 3,
       party_id: 4,
-      isAccountedFor: "false"
+      isAccountedFor: false
     },
     {
       name: "bring chairs",
@@ -54,7 +54,7 @@ exports.seed = function(knex) {
       cost: 0,
       user_id: 3,
       party_id: 4,
-      isAccountedFor: "false"
+      isAccountedFor: false
     },
     {
       name: "hire band",
@@ -62,7 +62,7 @@ exports.seed = function(knex) {
       cost: 300,
       user_id: 0,
       party_id: 5,
-      isAccountedFor: "false"
+      isAccountedFor: false
     },
     {
       name: "bring greenbean casserole",
@@ -70,7 +70,7 @@ exports.seed = function(knex) {
       cost: 0,
       user_id: 0,
       party_id: 5,
-      isAccountedFor: "false"
+      isAccountedFor: false
     }
   ]);
 };
