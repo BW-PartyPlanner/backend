@@ -24,7 +24,7 @@ function insert(party) {
 
 function insertUserParty(user_id, party_id) {
   return db("user_party")
-    .insert({ user_id, party_id, creator: "true" })
+    .insert({ user_id, party_id, creator: true })
 
     .then(res => {
       console.log(res);
